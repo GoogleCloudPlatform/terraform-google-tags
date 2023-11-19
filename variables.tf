@@ -14,12 +14,61 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  description = "The project ID to deploy to"
+variable "tag_for" {
+  type        = string
+  description = "Tags Created for organization or project"
+  default     = "organization"
+}
+
+variable "org_id" {
+  type        = string
+  description = "Organization ID"
+  default     = ""
+}
+
+variable "project_number" {
+  type        = string
+  description = "Project Number"
+  default     = ""
+}
+
+variable "key" {
+  description = "Key for Tags"
   type        = string
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create"
+variable "key_description" {
   type        = string
+  description = "Description for the Key"
+  default     = ""
+}
+
+variable "key_purpose" {
+  type        = string
+  description = "Purpose specification for the Key"
+  default     = ""
+}
+
+variable "key_purpose_data" {
+  type        = map(string)
+  description = "Purpose Data specification for the key"
+  default     = {}
+}
+
+variable "key_iam" {
+  type        = map(list(string))
+  description = "Additive IAM members for the Key"
+  default     = {}
+}
+
+variable "values" {
+
+  type = list(object({
+    value       = string
+    description = string
+    tag_binding = map(list(string))
+    iam         = map(list(string))
+  }))
+  description = "Value specifications"
+  default     = []
 }
