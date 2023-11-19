@@ -14,9 +14,29 @@
  * limitations under the License.
  */
 
-module "tags" {
-  source = "../.."
-
-  project_id  = var.project_id
-  bucket_name = var.bucket_name
+module "tag" {
+  source          = "../../"
+  tag_for         = "project"
+  project_number  = "9999999999999"
+  key             = "key1"
+  key_description = "first key"
+  key_iam         = { "roles/viewer" : ["user:user1@example.com"] }
+  values = [{
+    value       = "value1"
+    description = "first value"
+    tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/99999999999"], 
+                    "us-central1" : ["//run.googleapis.com/projects/9999999999999/locations/us-central1/services/hello1"] }
+    iam         = { "roles/viewer" : ["user:user2@example.com"] }
+    }, {
+    value       = "value2"
+    description = "second value"
+    tag_binding = { "us-central1" : ["//run.googleapis.com/projects/9999999999999/locations/us-central1/services/hello1"] }
+    iam         = {}
+    }, {
+    value       = "value3"
+    description = "third value"
+    tag_binding = {}
+    iam         = {}
+    }
+  ]
 }
