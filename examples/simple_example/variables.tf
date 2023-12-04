@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
+
 variable "project_id" {
-  description = "The ID of the project in which to provision resources."
+  description = "The ID of the project in which resources are provisioned."
   type        = string
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create."
-  type        = string
-}
+

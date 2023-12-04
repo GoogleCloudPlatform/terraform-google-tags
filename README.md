@@ -52,14 +52,30 @@ Functional examples are included in the
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| bucket\_name | The name of the bucket to create | `string` | n/a | yes |
-| project\_id | The project ID to deploy to | `string` | n/a | yes |
+| key | Key for Tags | `string` | n/a | yes |
+| key\_description | Description for the Key | `string` | `""` | no |
+| key\_iam | Additive IAM members for the Key | `map(list(string))` | `{}` | no |
+| key\_purpose | Purpose specification for the Key | `string` | `""` | no |
+| key\_purpose\_data | Purpose Data specification for the key | `map(string)` | `{}` | no |
+| org\_id | Organization ID | `string` | `""` | no |
+| project\_number | Project Number | `string` | `""` | no |
+| tag\_for | Tags Created for organization or project | `string` | `"organization"` | no |
+| values | Value specifications | <pre>list(object({<br>    value       = string<br>    description = string<br>    tag_binding = map(list(string))<br>    iam         = map(list(string))<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name | Name of the bucket |
+| key\_id | Key ID |
+| key\_name | Key Name |
+| key\_namespaced\_name | Key Namespaced Name |
+| tag\_binding\_ids | List of Tag Binding Ids |
+| tag\_binding\_location\_ids | List of Tag Binding Location Ids |
+| tag\_binding\_location\_names | List of Tag Binding Location Names |
+| tag\_binding\_names | List of Tag Binding Names |
+| value\_ids | List of Value Ids |
+| value\_names | List of Value Names |
+| value\_namespaced\_names | List of Value Namespaced Names |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

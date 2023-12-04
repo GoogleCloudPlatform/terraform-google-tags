@@ -17,21 +17,15 @@
 module "tag" {
   source          = "../../"
   tag_for         = "project"
-  project_number  = "9999999999999"
+  project_number  = data.google_project.project.number
   key             = "key1"
   key_description = "first key"
-  key_iam         = { "roles/viewer" : ["user:user1@example.com"] }
+  key_iam         = { "roles/viewer" : ["serviceAccount:ci-account@${var.project_id}.iam.gserviceaccount.com"] }
   values = [{
     value       = "value1"
     description = "first value"
-    tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/99999999999"], 
-                    "us-central1" : ["//run.googleapis.com/projects/9999999999999/locations/us-central1/services/hello1"] }
-    iam         = { "roles/viewer" : ["user:user2@example.com"] }
-    }, {
-    value       = "value2"
-    description = "second value"
-    tag_binding = { "us-central1" : ["//run.googleapis.com/projects/9999999999999/locations/us-central1/services/hello1"] }
-    iam         = {}
+    tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/${data.google_project.project.number}"] }
+    iam         = { "roles/viewer" : ["serviceAccount:ci-account@${var.project_id}.iam.gserviceaccount.com"] }
     }, {
     value       = "value3"
     description = "third value"
@@ -39,4 +33,8 @@ module "tag" {
     iam         = {}
     }
   ]
+}
+
+data "google_project" "project" {
+  project_id = var.project_id
 }

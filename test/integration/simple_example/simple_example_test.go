@@ -15,25 +15,47 @@
 package multiple_buckets
 
 import (
-	"testing"
-
+	"fmt"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
-	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/utils"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestSimpleExample(t *testing.T) {
-	example := tft.NewTFBlueprintTest(t)
+	tags := tft.NewTFBlueprintTest(t)
 
-	example.DefineVerify(func(assert *assert.Assertions) {
-		example.DefaultVerify(assert)
+	tags.DefineVerify(func(assert *assert.Assertions) {
+		tags.DefaultVerify(assert)
 
-		projectID := example.GetStringOutput("project_id")
-		services := gcloud.Run(t, "services list", gcloud.WithCommonArgs([]string{"--project", projectID, "--format", "json"})).Array()
+		projectID := tags.GetStringOutput("project_id")
+		gcloudArgsForGetKeys := gcloud.WithCommonArgs([]string{"--parent", fmt.Sprintf("projects/%s", projectID), "--format=json"})
+		//get created key
+		opKeys := gcloud.Run(t, "resource-manager tags keys list", gcloudArgsForGetKeys).Array()[0]
+		keyName := opKeys.Get("name").String()
+		projectNumber := opKeys.Get("parent").String()
 
-		match := utils.GetFirstMatchResult(t, services, "config.name", "storage.googleapis.com")
-		assert.Equal("ENABLED", match.Get("state").String(), "storage service should be enabled")
+		assert.Equal("key1", opKeys.Get("shortName").String(), "Assert key name")
+
+		//get values for created key
+		gcloudArgsForGetValues := gcloud.WithCommonArgs([]string{"--parent", keyName, "--format=json"})
+		opValues := gcloud.Run(t, "resource-manager tags values list", gcloudArgsForGetValues)
+
+		//get values defined in terraform
+		values := opValues.Get("#.shortName").Array()
+
+		assert.ElementsMatch([2]string{"value3", "value1"}, [2]string{values[0].String(), values[1].String()}, "check if value1 and value3 exists")
+
+		//get project value binding
+		gcloudArgsBinding := gcloud.WithCommonArgs([]string{"--parent", fmt.Sprintf("//cloudresourcemanager.googleapis.com/%s",projectNumber), "--format=json"})
+		opBindingValue := gcloud.Run(t, "resource-manager tags bindings list", gcloudArgsBinding).Array()[0].Get("tagValue").String()
+
+		//get permanent_ID for value1
+		opValueId := opValues.Get("#(shortName==\"value1\").name").String()
+
+		assert.Equal(opBindingValue, opValueId, "Equate binded value with value1")
+
+
 	})
-	example.Test()
+	tags.Test()
 }

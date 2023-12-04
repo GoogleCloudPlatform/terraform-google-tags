@@ -24,7 +24,7 @@ resource "google_tags_tag_key" "key" {
   purpose_data = var.key_purpose_data
 }
 
-# Create Tags Values for Key 
+# Create Tags Values for Key
 
 resource "google_tags_tag_value" "value" {
   for_each    = { for val_desc in var.values : val_desc.value => val_desc }
@@ -33,7 +33,7 @@ resource "google_tags_tag_value" "value" {
   description = each.value.description
 }
 
-# Create Tags Binding Globally 
+# Create Tags Binding Globally
 
 resource "google_tags_tag_binding" "binding" {
   for_each  = toset(distinct(flatten([for val_desc in var.values : [for tag_region, tag_binding in val_desc.tag_binding : tag_region == "global" ? [for bind in tag_binding : "${val_desc.value}=>${bind}"] : []]])))
@@ -41,7 +41,7 @@ resource "google_tags_tag_binding" "binding" {
   tag_value = "tagValues/${google_tags_tag_value.value[split("=>", each.value)[0]].name}"
 }
 
-# Create Tags Binding specific to Location 
+# Create Tags Binding specific to Location
 
 resource "google_tags_location_tag_binding" "binding" {
   for_each  = toset(distinct(flatten([for val_desc in var.values : [for tag_region, tag_binding in val_desc.tag_binding : tag_region != "global" ? [for bind in tag_binding : "${val_desc.value}=>${tag_region}=>${bind}"] : []]])))
@@ -50,7 +50,7 @@ resource "google_tags_location_tag_binding" "binding" {
   location  = split("=>", each.value)[1]
 }
 
-# Additive Members for Key IAM 
+# Additive Members for Key IAM
 
 resource "google_tags_tag_key_iam_member" "member" {
   for_each = toset(distinct(flatten([for role, members in var.key_iam : [for member in members : "${role}=>${member}"]])))
@@ -59,7 +59,7 @@ resource "google_tags_tag_key_iam_member" "member" {
   member   = split("=>", each.value)[1]
 }
 
-# Additive Members for Value IAM 
+# Additive Members for Value IAM
 
 resource "google_tags_tag_value_iam_member" "member" {
   for_each  = toset(distinct(flatten([for val_desc in var.values : [for role, members in val_desc.iam : [for member in members : "${val_desc.value}=>${role}=>${member}"]]])))
