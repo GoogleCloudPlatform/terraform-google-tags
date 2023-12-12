@@ -20,17 +20,14 @@ module "tag" {
   project_number  = data.google_project.project.number
   key             = "key1"
   key_description = "first key"
-  key_iam         = { "roles/viewer" : ["serviceAccount:ci-account@${var.project_id}.iam.gserviceaccount.com"] }
-  values = [{
+  value_specs = [{
     value       = "value1"
     description = "first value"
     tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/${data.google_project.project.number}"] }
-    iam         = { "roles/viewer" : ["serviceAccount:ci-account@${var.project_id}.iam.gserviceaccount.com"] }
     }, {
     value       = "value3"
     description = "third value"
     tag_binding = {}
-    iam         = {}
     }
   ]
 }

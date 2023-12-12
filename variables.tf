@@ -55,19 +55,11 @@ variable "key_purpose_data" {
   default     = {}
 }
 
-variable "key_iam" {
-  type        = map(list(string))
-  description = "Additive IAM members for the Key"
-  default     = {}
-}
-
-variable "values" {
-
+variable "value_specs" {
   type = list(object({
     value       = string
     description = string
     tag_binding = map(list(string))
-    iam         = map(list(string))
   }))
   description = "Value specifications"
   default     = []
