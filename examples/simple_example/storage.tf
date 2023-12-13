@@ -14,25 +14,9 @@
  * limitations under the License.
  */
 
-module "tag" {
-  source          = "../../"
-  tag_for         = "project"
-  project_number  = data.google_project.project.number
-  key             = "key1"
-  key_description = "first key"
-  value_specs = [{
-    value       = "value1"
-    description = "first value"
-    tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/${data.google_project.project.number}"],
-    "us" : ["//storage.googleapis.com/projects/_/buckets/${var.project_id}-bucket"] }
-    }, {
-    value       = "value3"
-    description = "third value"
-    tag_binding = {}
-    }
-  ]
-}
-
-data "google_project" "project" {
+module "cloud-storage_example_simple_bucket" {
+  source  = "terraform-google-modules/cloud-storage/google//examples/simple_bucket"
+  version = "5.0.0"
+  #required variable here
   project_id = var.project_id
 }

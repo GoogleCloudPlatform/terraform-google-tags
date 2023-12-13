@@ -16,10 +16,11 @@ package multiple_buckets
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestSimpleExample(t *testing.T) {
@@ -47,7 +48,7 @@ func TestSimpleExample(t *testing.T) {
 		assert.ElementsMatch([2]string{"value3", "value1"}, [2]string{values[0].String(), values[1].String()}, "check if value1 and value3 exists")
 
 		//get project value binding
-		gcloudArgsBinding := gcloud.WithCommonArgs([]string{"--parent", fmt.Sprintf("//cloudresourcemanager.googleapis.com/%s",projectNumber), "--format=json"})
+		gcloudArgsBinding := gcloud.WithCommonArgs([]string{"--parent", fmt.Sprintf("//cloudresourcemanager.googleapis.com/%s", projectNumber), "--format=json"})
 		opBindingValue := gcloud.Run(t, "resource-manager tags bindings list", gcloudArgsBinding).Array()[0].Get("tagValue").String()
 
 		//get permanent_ID for value1
@@ -55,6 +56,11 @@ func TestSimpleExample(t *testing.T) {
 
 		assert.Equal(opBindingValue, opValueId, "Equate binded value with value1")
 
+		//get location tag value binding
+		gcloudArgsLocationBinding := gcloud.WithCommonArgs([]string{"--parent", fmt.Sprintf("//storage.googleapis.com/projects/_/buckets/%s-bucket", projectID), "--location", "us", "--format=json"})
+		opBindingLocationValue := gcloud.Run(t, "resource-manager tags bindings list", gcloudArgsLocationBinding).Array()[0].Get("tagValue").String()
+
+		assert.Equal(opBindingLocationValue, opValueId, "Equate binded value with value1")
 
 	})
 	tags.Test()
