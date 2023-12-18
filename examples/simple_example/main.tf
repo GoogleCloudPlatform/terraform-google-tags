@@ -15,7 +15,8 @@
  */
 
 module "tags" {
-  source = "../.."
+  source  = "GoogleCloudPlatform/tags/google"
+  version = "~> REPLACE-AFTER-RELEASE"
 
   project_id  = var.project_id
   bucket_name = var.bucket_name
