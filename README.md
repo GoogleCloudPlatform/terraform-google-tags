@@ -68,6 +68,10 @@ module "tags" {
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+## TAGs IAM
+
+Use TAGs IAM modules [tag_keys](https://github.com/terraform-google-modules/terraform-google-iam/tree/master/modules/tag_keys_iam) and [tag_values](https://github.com/terraform-google-modules/terraform-google-iam/blob/master/modules/tag_values_iam) for IAM bindings.
+
 ## Requirements
 
 These sections describe requirements for using this module.
