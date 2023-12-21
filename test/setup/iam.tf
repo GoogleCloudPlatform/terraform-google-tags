@@ -16,6 +16,7 @@
 
 locals {
   int_required_roles = [
+    "roles/resourcemanager.tagAdmin",
     "roles/owner"
   ]
 }
