@@ -15,8 +15,8 @@
  */
 
 module "tags" {
-  source  = "GoogleCloudPlatform/tags/google"
-  version = "~> REPLACE-AFTER-RELEASE"
+  source          = "GoogleCloudPlatform/tags/google"
+  version         = "~> REPLACE-AFTER-RELEASE"
   tag_for         = "project"
   project_number  = data.google_project.project.number
   key             = "key1"
