@@ -17,7 +17,23 @@
 module "tags" {
   source  = "GoogleCloudPlatform/tags/google"
   version = "~> REPLACE-AFTER-RELEASE"
+  tag_for         = "project"
+  project_number  = data.google_project.project.number
+  key             = "key1"
+  key_description = "first key"
+  value_specs = [{
+    value       = "value1"
+    description = "first value"
+    tag_binding = { "global" : ["//cloudresourcemanager.googleapis.com/projects/${data.google_project.project.number}"],
+    "us" : ["//storage.googleapis.com/projects/_/buckets/${var.project_id}-bucket"] }
+    }, {
+    value       = "value3"
+    description = "third value"
+    tag_binding = {}
+    }
+  ]
+}
 
-  project_id  = var.project_id
-  bucket_name = var.bucket_name
+data "google_project" "project" {
+  project_id = var.project_id
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-
-output "project_id" {
-  description = "The ID of the project in which resources are provisioned."
-  value       = var.project_id
+module "cloud-storage_example_simple_bucket" {
+  source  = "terraform-google-modules/cloud-storage/google//examples/simple_bucket"
+  version = "5.0.0"
+  #required variable here
+  project_id = var.project_id
 }
-
