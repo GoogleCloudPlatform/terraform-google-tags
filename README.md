@@ -10,15 +10,13 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "tags" {
-  source  = "terraform-google-modules/tags/google"
+  source  = "GoogleCloudPlatform/tags/google"
   version = "~> 0.1"
 
-  project_id  = "<PROJECT ID>"
   tag_for         = "project"
   project_number  = "9999999999999"
   key             = "key1"
   key_description = "first key"
-  key_iam         = { "roles/viewer" : ["user:user1@example.com"] }
   value_specs = [{
     value       = "value1"
     description = "first value"
