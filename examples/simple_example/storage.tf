@@ -16,7 +16,7 @@
 
 module "cloud-storage_example_simple_bucket" {
   source  = "terraform-google-modules/cloud-storage/google//examples/simple_bucket"
-  version = "6.0.0"
+  version = "~> 11.0"
   #required variable here
   project_id = var.project_id
 }
