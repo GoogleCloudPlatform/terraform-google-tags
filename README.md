@@ -11,7 +11,7 @@ Basic usage of this module is as follows:
 ```hcl
 module "tags" {
   source  = "GoogleCloudPlatform/tags/google"
-  version = "~> 0.2"
+  version = "~> 0.3"
 
   tag_for         = "project"
   project_number  = "9999999999999"
@@ -78,8 +78,8 @@ These sections describe requirements for using this module.
 
 The following dependencies must be available:
 
-- [Terraform][terraform] >=v0.13
-- [Terraform Provider for GCP][terraform-provider-gcp] ~> 4.0
+- [Terraform][terraform] >=v1.3
+- [Terraform Provider for GCP][terraform-provider-gcp] >= >= 4.48, < 8
 
 ### APIs
 
