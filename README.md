@@ -11,7 +11,7 @@ Basic usage of this module is as follows:
 ```hcl
 module "tags" {
   source  = "GoogleCloudPlatform/tags/google"
-  version = "~> 0.2"
+  version = "~> 0.3"
 
   tag_for         = "project"
   project_number  = "9999999999999"

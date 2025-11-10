@@ -8,6 +8,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [0.3.0](https://github.com/GoogleCloudPlatform/terraform-google-tags/compare/v0.2.0...v0.3.0) (2025-11-10)
+
+
+### Features
+
+* **deps:** Update Terraform google to v7 ([#44](https://github.com/GoogleCloudPlatform/terraform-google-tags/issues/44)) ([eda4562](https://github.com/GoogleCloudPlatform/terraform-google-tags/commit/eda45629309829fa74aeb91b1143fbe0189726b2))
+
 ## [0.2.0](https://github.com/GoogleCloudPlatform/terraform-google-tags/compare/v0.1.0...v0.2.0) (2025-05-27)
 
 
